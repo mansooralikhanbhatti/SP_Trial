@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Product>
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Search Results</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <ul>
+            @foreach (var product in Model)
+            {
+                <li>@product.ProductName - @product.Price - @product.Description</li>
+            }
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+</div>
