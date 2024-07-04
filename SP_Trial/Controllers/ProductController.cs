@@ -2,29 +2,41 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SP_Trial.DataLayer;
+using SP_Trial.Models;
 
-namespace SP_Trial.Controllers
+public class ProductController : Controller
 {
-    public class ProductController : Controller
+    private readonly ApplicationDbContext _db;
+
+    public ProductController(ApplicationDbContext db)
     {
-        private readonly ApplicationDbContext _db;
+        _db = db;
+    }
+
+    public async Task<IActionResult> ProductsList()
+    {
+        var products = await GetAllProductsAsync(string.Empty);
+        return View(products);
+    }
+    [HttpPost]
+    public async Task<IActionResult> SearchProducts([FromBody] string keyword)
+    {
+        var products = await GetAllProductsAsync(keyword);
+        return Json(products);
+    }
 
 
-        public ProductController(ApplicationDbContext db)
-        {
-            _db = db;
-        }
-        public IActionResult ProductsList()
-        {
-            var GetAllProducts = _db.Products.FromSqlRaw("GetAllProducts").ToList();
-            return View(GetAllProducts);
-        }
-        [HttpPost]
-        public IActionResult SearchProducts(string ProductName)
-        {
-            var products = _db.GetProductsByName(ProductName);
-            return PartialView("_ProductSearchResults", products);
-        }
 
+    private async Task<List<Product>> GetAllProductsAsync(string keyword)
+    {
+        if (string.IsNullOrEmpty(keyword))
+        {
+            return await _db.Products.FromSqlRaw("EXEC GetAllProducts").ToListAsync();
+        }
+        else
+        {
+            SqlParameter param = new SqlParameter("@p0", keyword);
+            return await _db.Products.FromSqlRaw("EXEC GetAllProducts @p0", param).ToListAsync();
+        }
     }
 }

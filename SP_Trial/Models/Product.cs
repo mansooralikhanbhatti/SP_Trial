@@ -10,6 +10,14 @@ namespace SP_Trial.Models
         public decimal Price { get; set; }
         public string Description { get; set; }
 
+        internal static object FromSqlRaw(string v)
+        {
+            throw new NotImplementedException();
+        }
 
+        internal static object FromSqlRaw(string v, string keyword)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
