@@ -11,9 +11,8 @@ namespace SP_Trial.DataLayer
         }
         public DbSet<Product> Products { get; set; }
 
-        internal object GetProductsByName(string productName)
-        {
-            throw new NotImplementedException();
-        }
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
     }
 }

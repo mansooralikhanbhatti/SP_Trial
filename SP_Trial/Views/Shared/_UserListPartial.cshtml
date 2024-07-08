@@ -1,0 +1,31 @@
+﻿@model List<User>
+
+<table class="table table-striped" style="border: 1px solid #000;">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>User Name</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>DateOfBirth</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserID</td>
+                <td>@user.UserName</td>
+                <td>@user.Password</td>
+                <td>@user.Email</td>
+                <td>@user.DateOfBirth</td>
+            </tr>
+        }
+        @if (Model.Count == 0)
+        {
+            <tr>
+                <td colspan="4">No users found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

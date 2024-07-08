@@ -1,33 +1,33 @@
-﻿@model List<Product>
+﻿@model List<Category>
 
 @{
-    ViewData["Title"] = "Products List";
+    ViewData["Title"] = "Categories List";
 }
 
-<h1>Products List</h1>
+<h1>Categories List</h1>
 
 <form id="searchForm">
-    <h5><label for="keyword">Search by Product Name</label></h5>
+    <h5><label for="keyword">Search by Category Name</label></h5>
     <input type="text" id="keyword" placeholder="Enter keyword" />
     <button type="button" id="searchButton">Search</button>
 </form>
 <div style="margin-bottom: 1.2em;"></div>
-
 <div id="results">
-    @Html.Partial("_ProductListPartial", Model)
+    @Html.Partial("_CategoryListPartial", Model)
 </div>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            function searchProducts(keyword) {
+            function searchCategories(keyword) {
                 $.ajax({
-                    url: '/Product/SearchProducts',
+                    url: '/Category/SearchCategories',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(keyword),
                     success: function (data) {
+                        debugger;
                         $('#results').html(data);
                     },
                     error: function (xhr, status, error) {
@@ -36,18 +36,18 @@
                 });
             }
 
-            
-            searchProducts('');
 
-    
+            searchCategories('');
+
+
             $('#searchButton').click(function () {
                 var keyword = $('#keyword').val();
-                searchProducts(keyword);
+                searchCategories(keyword);
             });
 
             $('#keyword').on('input', function () {
                 var keyword = $(this).val();
-                searchProducts(keyword);
+                searchCategories(keyword);
             });
         });
     </script>

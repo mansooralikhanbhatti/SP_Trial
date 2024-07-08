@@ -3,6 +3,8 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SP_Trial.DataLayer;
 using SP_Trial.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class ProductController : Controller
 {
@@ -18,14 +20,13 @@ public class ProductController : Controller
         var products = await GetAllProductsAsync(string.Empty);
         return View(products);
     }
+
     [HttpPost]
     public async Task<IActionResult> SearchProducts([FromBody] string keyword)
     {
-        var products = await GetAllProductsAsync(keyword);
-        return Json(products);
+        var products = await GetAllProductsAsync(keyword); 
+        return PartialView("_ProductListPartial", products); 
     }
-
-
 
     private async Task<List<Product>> GetAllProductsAsync(string keyword)
     {
@@ -36,7 +37,7 @@ public class ProductController : Controller
         else
         {
             SqlParameter param = new SqlParameter("@p0", keyword);
-            return await _db.Products.FromSqlRaw("EXEC GetAllProducts @p0", param).ToListAsync();
+            return await _db.Products.FromSqlRaw("EXEC SearchProducts @p0", param).ToListAsync();
         }
     }
 }

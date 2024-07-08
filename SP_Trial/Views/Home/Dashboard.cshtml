@@ -1,0 +1,86 @@
+﻿@model DashboardViewModel
+
+<h1 style="text-align: center;">Welcome To <span style="color: #FF5722;">MK</span> Shopping<span style="color: #FF5722;">Kart</span></h1>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-dark mb-3">
+            <div class="card-header">No. of Products</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.Products.Count()</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-dark mb-3">
+            <div class="card-header">No. of Users</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.Users.Count()</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-dark mb-3">
+            <div class="card-header">No. of Categories</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.Categories.Count()</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Products</h3>
+        <div id="productList">
+            @await Html.PartialAsync("_ProductListPartial", Model.Products)
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h3>Users</h3>
+        <div id="userList">
+            @await Html.PartialAsync("_UserListPartial", Model.Users)
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h3>Categories</h3>
+        <div id="categoryList">
+            @await Html.PartialAsync("_CategoryListPartial", Model.Categories)
+        </div>
+    </div>
+</div>
+
+
+
+@* @model DashboardViewModel
+
+<h1 style="font-family: 'Roboto', sans-serif; font-size: 3em; color: #4CAF50; text-align: center; text-transform: uppercase; letter-spacing: 2px; margin-top: 50px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Welcome To <span style="color: #FF5722;">MK</span> Shopping<span style="color: #FF5722;">Kart</span></h1>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Products</h3>
+        <div id="productList">
+            @await Html.PartialAsync("_ProductListPartial", Model.Products)
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h3>Users</h3>
+        <div id="userList">
+            @await Html.PartialAsync("_UserListPartial", Model.Users)
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h3>Categories</h3>
+        <div id="categoryList">
+            @await Html.PartialAsync("_CategoryListPartial", Model.Categories)
+        </div>
+    </div>
+</div>
+ *@

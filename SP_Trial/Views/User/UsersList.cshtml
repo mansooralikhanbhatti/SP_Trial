@@ -1,29 +1,29 @@
-﻿@model List<Product>
+﻿@model List<User>
 
 @{
-    ViewData["Title"] = "Products List";
+    ViewData["Title"] = "Users List";
 }
 
-<h1>Products List</h1>
+<h1>Users List</h1>
 
 <form id="searchForm">
-    <h5><label for="keyword">Search by Product Name</label></h5>
+    <h5><label for="keyword">Search by User Name</label></h5>
     <input type="text" id="keyword" placeholder="Enter keyword" />
     <button type="button" id="searchButton">Search</button>
 </form>
 <div style="margin-bottom: 1.2em;"></div>
 
 <div id="results">
-    @Html.Partial("_ProductListPartial", Model)
+    @Html.Partial("_UserListPartial", Model)
 </div>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            function searchProducts(keyword) {
+            function searchUsers(keyword) {
                 $.ajax({
-                    url: '/Product/SearchProducts',
+                    url: '/User/SearchUsers',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(keyword),
@@ -36,18 +36,18 @@
                 });
             }
 
-            
-            searchProducts('');
 
-    
+            searchUsers('');
+
+
             $('#searchButton').click(function () {
                 var keyword = $('#keyword').val();
-                searchProducts(keyword);
+                searchUsers(keyword);
             });
 
             $('#keyword').on('input', function () {
                 var keyword = $(this).val();
-                searchProducts(keyword);
+                searchUsers(keyword);
             });
         });
     </script>

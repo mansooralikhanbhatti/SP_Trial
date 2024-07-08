@@ -1,32 +1,28 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SP_Trial.DataLayer;
 using SP_Trial.Models;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace SP_Trial.Controllers
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly ApplicationDbContext _db;
+
+    public HomeController(ApplicationDbContext db)
     {
-        private readonly ILogger<HomeController> _logger;
+        _db = db;
+    }
 
-        public HomeController(ILogger<HomeController> logger)
+    public async Task<IActionResult> Dashboard()
+    {
+        var viewModel = new DashboardViewModel
         {
-            _logger = logger;
-        }
+            Products = await _db.Products.ToListAsync(),
+            Users = await _db.Users.ToListAsync(),
+            Categories = await _db.Categories.ToListAsync()
+        };
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        return View(viewModel);
     }
 }
