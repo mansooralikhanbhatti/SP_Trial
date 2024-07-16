@@ -1,0 +1,292 @@
+﻿@{
+    ViewData["Title"] = "Product Prices Chart";
+}
+<div class="container">
+
+<!-- Select2 Dropdown -->
+<div class="form-group">
+    <label for="chartSelector">Select From Below Charts...</label>
+    <select id="chartSelector" class="form-control" multiple>
+        <option value="chart1">Product Prices Polar Area Chart</option>
+        <option value="chart2">Product Prices Radial Gradient Line Chart</option>
+    </select>
+</div>
+
+<!-- Chart 1: Polar Area Chart -->
+<div id="chart1Container" class="border border-primary rounded p-3 mt-4">
+    <canvas id="productChart1" width="600" height="600"></canvas>
+</div>
+
+<!-- Chart 2: Radial Gradient Line Chart -->
+<div id="chart2Container" class="border border-primary rounded p-3 mt-4">
+    <canvas id="productChart2" width="600" height="300"></canvas>
+   </div>
+</div>
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initialize Select2 for multiple selection
+            $('#chartSelector').select2();
+
+            // Default to showing both charts
+            showCharts();
+
+            // Listen for changes in the Select2 dropdown
+            $('#chartSelector').on('change', function () {
+                showCharts();
+            });
+
+            function showCharts() {
+                var selectedCharts = $('#chartSelector').val();
+
+                // Show or hide Chart 1 based on selection
+                if (selectedCharts.includes('chart1')) {
+                    $('#chart1Container').show();
+                } else {
+                    $('#chart1Container').hide();
+                }
+
+                // Show or hide Chart 2 based on selection
+                if (selectedCharts.includes('chart2')) {
+                    $('#chart2Container').show();
+                } else {
+                    $('#chart2Container').hide();
+                }
+            }
+
+            // Chart 1: Polar Area Chart
+            var ctx1 = document.getElementById('productChart1').getContext('2d');
+            var productNames1 = @Html.Raw(Json.Serialize(ViewBag.ProductNames));
+            var prices1 = @Html.Raw(Json.Serialize(ViewBag.Prices));
+
+            var dynamicColors1 = [];
+            for (var i = 0; i < productNames1.length; i++) {
+                var r = Math.floor(Math.random() * 255);
+                var g = Math.floor(Math.random() * 255);
+                var b = Math.floor(Math.random() * 255);
+                dynamicColors1.push('rgba(' + r + ',' + g + ',' + b + ', 0.8)');
+            }
+
+            var productChart1 = new Chart(ctx1, {
+                type: 'polarArea',
+                data: {
+                    labels: productNames1,
+                    datasets: [{
+                        label: 'Prices',
+                        data: prices1,
+                        backgroundColor: dynamicColors1,
+                        borderColor: 'rgba(255, 255, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scale: {
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 100,
+                            callback: function (value) {
+                                return '$' + value;
+                            },
+                            fontStyle: 'bold'
+                        }
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                return '$' + tooltipItem.yLabel;
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Chart 2: Radial Gradient Line Chart
+            var ctx2 = document.getElementById('productChart2').getContext('2d');
+            var productNames2 = @Html.Raw(Json.Serialize(ViewBag.ProductNames));
+            var prices2 = @Html.Raw(Json.Serialize(ViewBag.Prices));
+
+            var gradient2 = ctx2.createRadialGradient(300, 150, 10, 300, 150, 200);
+            gradient2.addColorStop(0, 'rgba(255, 99, 132, 0.8)');
+            gradient2.addColorStop(0.5, 'rgba(255, 159, 64, 0.8)');
+            gradient2.addColorStop(1, 'rgba(255, 205, 86, 0.8)');
+
+            var productChart2 = new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: productNames2,
+                    datasets: [{
+                        label: 'Prices',
+                        data: prices2,
+                        backgroundColor: gradient2,
+                        borderColor: 'rgba(0, 0, 139, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function (value) {
+                                    return '$' + value;
+                                },
+                                fontStyle: 'bold'
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontStyle: 'bold'
+                            },
+                            gridLines: {
+                                display: false
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                return '$' + tooltipItem.yLabel;
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}
+@* @{
+    ViewData["Title"] = "Product Prices Chart";
+}
+
+<div style="background-color: black; color: #fff; padding: 10px; border-radius: 5px; display: inline-block; font-size: 28px; text-transform: uppercase; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin-top: 5%">
+    Product Prices Polar Area Chart
+</div>
+
+<div class="border border-primary rounded p-3 mt-4">
+    <canvas id="productChart1" width="600" height="600"></canvas>
+</div>
+
+<div style="background-color: black; color: #fff; padding: 10px; border-radius: 5px; display: inline-block; font-size: 28px; text-transform: uppercase; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin-top: 5%">
+    Product Prices Radial Gradient Line Chart
+</div>
+
+<div class="border border-primary rounded p-3 mt-4">
+    <canvas id="productChart2" width="600" height="300"></canvas>
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Chart 1: Polar Area Chart
+        var ctx1 = document.getElementById('productChart1').getContext('2d');
+        var productNames1 = @Html.Raw(Json.Serialize(ViewBag.ProductNames));
+        var prices1 = @Html.Raw(Json.Serialize(ViewBag.Prices));
+
+        // Generate random colors for each product
+        var dynamicColors1 = [];
+        for (var i = 0; i < productNames1.length; i++) {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            dynamicColors1.push('rgba(' + r + ',' + g + ',' + b + ', 0.8)');
+        }
+
+        var productChart1 = new Chart(ctx1, {
+            type: 'polarArea',
+            data: {
+                labels: productNames1,
+                datasets: [{
+                    label: 'Prices',
+                    data: prices1,
+                    backgroundColor: dynamicColors1, // Use dynamic colors array
+                    borderColor: 'rgba(255, 255, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scale: {
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 100, // Adjust the step size here
+                        callback: function (value) {
+                            return '$' + value;
+                        },
+                        fontStyle: 'bold'
+                    }
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            return '$' + tooltipItem.yLabel;
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Radial Gradient Line Chart
+        var ctx2 = document.getElementById('productChart2').getContext('2d');
+        var productNames2 = @Html.Raw(Json.Serialize(ViewBag.ProductNames));
+        var prices2 = @Html.Raw(Json.Serialize(ViewBag.Prices));
+
+        // Create radial gradient
+        var gradient2 = ctx2.createRadialGradient(300, 150, 10, 300, 150, 200);
+        gradient2.addColorStop(0, 'rgba(255, 99, 132, 0.8)');
+        gradient2.addColorStop(0.5, 'rgba(255, 159, 64, 0.8)');
+        gradient2.addColorStop(1, 'rgba(255, 205, 86, 0.8)');
+
+        var productChart2 = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: productNames2,
+                datasets: [{
+                    label: 'Prices',
+                    data: prices2,
+                    backgroundColor: gradient2,
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value) {
+                                return '$' + value;
+                            },
+                            fontStyle: 'bold'
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontStyle: 'bold'
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            return '$' + tooltipItem.yLabel;
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}
+
+ *@

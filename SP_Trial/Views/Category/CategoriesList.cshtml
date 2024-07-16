@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Categories List";
 }
-
+<div class="container">
 <h1>Categories List</h1>
 
 <form id="searchForm">
@@ -14,6 +14,7 @@
 <div style="margin-bottom: 1.2em;"></div>
 <div id="results">
     @Html.Partial("_CategoryListPartial", Model)
+  </div>
 </div>
 
 @section Scripts {

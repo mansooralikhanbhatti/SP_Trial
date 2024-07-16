@@ -1,0 +1,31 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model SP_Trial.Models.LoginModel
+
+@{
+    Layout = "_LoginLayout";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <h1>Log-in</h1>
+            <div asp-validation-summary="ModelOnly" class="errorMsg"></div>
+
+            <form asp-action="SubmitLogin" asp-controller="Account" method="post">
+                <div class="form-group">
+                    <label asp-for="@Model.UserName"></label>
+                    <input asp-for="@Model.UserName" class="form-control" />
+                    <span asp-validation-for="@Model.UserName" class="errorMsg"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Password"></label>
+                    <input asp-for="@Model.Password" class="form-control" />
+                    <span asp-validation-for="@Model.Password" class="errorMsg"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="@Url.Action("RegisterForm","Account")">Register</a>"
+            </form>
+        </div>
+        <div class="col-6">
+        </div>
+    </div>
+</div>

@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Products List";
 }
-
+<div class="container">
 <h1>Products List</h1>
 <a href="@Url.Action("AddProduct", "Product")" class="btn btn-primary">Add Product</a>
 
@@ -16,6 +16,7 @@
 
 <div id="results">
     @Html.Partial("_ProductListPartial", Model)
+    </div>
 </div>
 
 @section Scripts {

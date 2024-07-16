@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\css\BG_Images\**" />
+    <Content Remove="wwwroot\css\BG_Images\**" />
+    <EmbeddedResource Remove="wwwroot\css\BG_Images\**" />
+    <None Remove="wwwroot\css\BG_Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-grid.css" />
     <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-grid.min.css" />
@@ -65,6 +72,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\" />
   </ItemGroup>
 
 </Project>
