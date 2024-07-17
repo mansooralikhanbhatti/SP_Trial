@@ -6,6 +6,7 @@ using SP_Trial.DataLayer;
 using SP_Trial.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 public class ProductController : Controller
 {
